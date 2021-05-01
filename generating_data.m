@@ -12,18 +12,18 @@ tic
 %% Variables
 
 % ranges of variables for traversing through the for loops
-exo_stiff_range = 180000 * 1;
-grav_range = 2 :2:24;
-fmax_range = [6000];
-vmax_range = [-0.45];
-act_range = [1];
+exo_stiff_range = linspace(100,200000,5);
+grav_range = 4:2:24;
+fmax_range = 6000 * [0.7 0.85 1 1.15 1.3];
+vmax_range = -0.45 * [0.5 0.75 1 1.25 1.5];
+act_range = 1 * [0.5 0.75 1 1.25 1.5];
 
-% test values (comment out and use ^above^ definitions for actual data)
-exo_stiff_range = 180000 * 1;
-grav_range = 9.81 * 1;
-fmax_range = [6000];
-vmax_range = [-0.45];
-act_range = [1];
+% % test values (comment out and use ^above^ definitions for actual data)
+% exo_stiff_range = 180000 * 1;
+% grav_range = 9.81 * 1;
+% fmax_range = [6000];
+% vmax_range = [-0.45];
+% act_range = [1];
 
 % values of variables for when they are being held constant over the
 % iterations
