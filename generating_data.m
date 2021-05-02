@@ -15,7 +15,7 @@ exo_stiff_range = linspace(100,200000,5);
 grav_range = 4:2:24;
 fmax_range = 6000 * [0.7 0.85 1 1.15 1.3];
 vmax_range = -0.45 * [0.5 0.75 1 1.25 1.5];
-act_range = 1 * [0.5 0.75 1 1.25 1.5];
+act_range = linspace(0.5,1,5);
 
 % % test values (comment out and use ^above^ definitions for actual data)
 % exo_stiff_range = 180000 * 1;
