@@ -12,7 +12,7 @@ clc
 
 % ranges of variables for traversing through the for loops
 exo_stiff_range = linspace(100,200000,5);
-grav_range = 4:2:24;
+grav_range = 2:2:24;
 fmax_range = 6000 * [0.7 0.85 1 1.15 1.3];
 vmax_range = -0.45 * [0.5 0.75 1 1.25 1.5];
 act_range = linspace(0.5,1,5);
