@@ -8,7 +8,6 @@
 close all
 clear
 clc
-tic
 %% Variables
 
 % ranges of variables for traversing through the for loops
@@ -32,7 +31,7 @@ vmax = -0.45;
 act = 1;
 grav = 9.81;
 
-
+%------------- Run F_MAX OR V_MAX OR ACT OR Fixed g ----------------------
 %% F_MAX
 parfor a = 1:length(grav_range)    
     grav = grav_range(a);
@@ -94,7 +93,7 @@ end
 %% ACTIVATION
 parfor a = 1:length(grav_range)    
     grav = grav_range(a);
-    for b = 1:length(vmax_range)
+    for b = 1:length(act_range)
         act = act_range(b);
         for c = 1:size(exo_stiff_range)
             stiff = exo_stiff_range(c);
@@ -120,7 +119,18 @@ parfor a = 1:length(grav_range)
     end
 end
 
-%% F_MAX and V_MAX
+%% Fixed g - F_MAX and V_MAX
+
+% grav = 3.7;   % Mercury
+% grav = 8.87;  % Venus
+grav = 9.81;  % Earth
+% grav = 1.62;  % Moon
+% grav = 3.72;  % Mars
+% grav = 24.8;  % Jupiter
+% grav = 10.44; % Saturn
+% grav = 8.8;   % Uranus
+% grav = 11.15; % Neptune
+
 parfor a = 1:length(fmax_range)    
     fmax = fmax_range(a);
     for b = 1:length(vmax_range)
@@ -148,5 +158,3 @@ parfor a = 1:length(fmax_range)
         end
     end
 end
-
-toc
