@@ -45,8 +45,6 @@ parfor a = 1:length(grav_range)
                 set_param('FullHopper_passiveExo/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
                 set_param('FullHopper_passiveExo/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
                 set_param('FullHopper_passiveExo/Fmax_mus (N)','Value',num2str(fmax));    %Setting muscle parameters in model
-                set_param('FullHopper_passiveExo/Vmax_mus (m\s)','Value',num2str(vmax));    %Setting muscle parameters in model
-                set_param('FullHopper_passiveExo/pulse','Amplitude',num2str(act));    %Setting muscle parameters in model
                 % FILE NAME
                 name = sprintf('exoData_grav_%s_fmax_%s_stiff_%s.mat', num2str(grav),num2str(fmax),num2str(stiff));
                 set_param('FullHopper_passiveExo/To File','FileName', name);  %Setting File Name                
@@ -73,9 +71,7 @@ parfor a = 1:length(grav_range)
                 % CHANGE MODEL PARAMETERS
                 set_param('FullHopper_passiveExo/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
                 set_param('FullHopper_passiveExo/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
-                set_param('FullHopper_passiveExo/Fmax_mus (N)','Value',num2str(fmax));    %Setting muscle parameters in model
                 set_param('FullHopper_passiveExo/Vmax_mus (m\s)','Value',num2str(vmax));    %Setting muscle parameters in model
-                set_param('FullHopper_passiveExo/pulse','Amplitude',num2str(act));    %Setting muscle parameters in model
                 % FILE NAME
                 name = sprintf('exoData_grav_%s_vmax_%s_stiff_%s.mat', num2str(grav),num2str(vmax),num2str(stiff));
                 set_param('FullHopper_passiveExo/To File','FileName', name);  %Setting File Name                
@@ -102,9 +98,7 @@ parfor a = 1:length(grav_range)
                 % CHANGE MODEL PARAMETERS
                 set_param('FullHopper_passiveExo/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
                 set_param('FullHopper_passiveExo/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
-                set_param('FullHopper_passiveExo/Fmax_mus (N)','Value',num2str(fmax));    %Setting muscle parameters in model
-                set_param('FullHopper_passiveExo/Vmax_mus (m\s)','Value',num2str(vmax));    %Setting muscle parameters in model
-                set_param('FullHopper_passiveExo/pulse','Amplitude',num2str(act));    %Setting muscle parameters in model
+                set_param('FullHopper_passiveExo/act_gain','Value',num2str(act));    %Setting muscle parameters in model
                 % FILE NAME
                 name = sprintf('exoData_grav_%s_act_%s_stiff_%s.mat', num2str(grav),num2str(act),num2str(stiff));
                 set_param('FullHopper_passiveExo/To File','FileName', name);  %Setting File Name                
@@ -144,7 +138,6 @@ parfor a = 1:length(fmax_range)
                 set_param('FullHopper_passiveExo/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
                 set_param('FullHopper_passiveExo/Fmax_mus (N)','Value',num2str(fmax));    %Setting muscle parameters in model
                 set_param('FullHopper_passiveExo/Vmax_mus (m\s)','Value',num2str(vmax));    %Setting muscle parameters in model
-                set_param('FullHopper_passiveExo/pulse','Amplitude',num2str(act));    %Setting muscle parameters in model
                 % FILE NAME
                 name = sprintf('exoData_fmax_%s_vmax_%s_stiff_%s.mat', num2str(fmax),num2str(vmax),num2str(stiff));
                 set_param('FullHopper_passiveExo/To File','FileName', name);  %Setting File Name                
