@@ -4,11 +4,11 @@
 %
 % This model generates data of musculotendon (MT) force
 % based on exoskeleton spring stiffness and muscle atrophy
-%% Clearing variables and figures
+%% Clearing variables and figures ------- 1st
 close all
 clear
 clc
-%% Variables
+%% Variables ------------ 2nd
 
 % ranges of variables for traversing through the for loops
 exo_stiff_range = linspace(100,200000,5);
@@ -26,10 +26,12 @@ act_range = linspace(0.5,1,5);
 
 % values of variables for when they are being held constant over the
 % iterations
-fmax = 6000;
-vmax = -0.45;
-act = 1;
-grav = 9.81;
+% fmax = 6000;
+% vmax = -0.45;
+% act = 1;
+% grav = 9.81;
+
+file_name = 'FullHopper_passiveExo_PWM.slx';
 
 %------------- Run F_MAX OR V_MAX OR ACT OR Fixed g ----------------------
 %% F_MAX - Ishrat
@@ -40,17 +42,17 @@ parfor a = 1:length(grav_range)
         for c = 1:size(exo_stiff_range)
             stiff = exo_stiff_range(c);
             try
-                load_system('FullHopper_passiveExo_PWM.slx');                                %Loading model                
+                load_system(file_name);                                %Loading model                
                 % CHANGE MODEL PARAMETERS
-                set_param('FullHopper_passiveExo/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
-                set_param('FullHopper_passiveExo/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
-                set_param('FullHopper_passiveExo/Fmax_mus (N)','Value',num2str(fmax));    %Setting muscle parameters in model
+                set_param('FullHopper_passiveExo_PWM/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
+                set_param('FullHopper_passiveExo_PWM/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
+                set_param('FullHopper_passiveExo_PWM/Fmax_mus (N)','Value',num2str(fmax));    %Setting muscle parameters in model
                 % FILE NAME
                 name = sprintf('exoData_grav_%s_fmax_%s_stiff_%s.mat', num2str(grav),num2str(fmax),num2str(stiff));
-                set_param('FullHopper_passiveExo/To File','FileName', name);  %Setting File Name                
+                set_param('FullHopper_passiveExo_PWM/To File','FileName', name);  %Setting File Name                
                 
-                simout{a} = sim('FullHopper_passiveExo.slx');                            %Simulates model
-                close_system('FullHopper_passiveExo.slx',0);                             %Closes model                
+                simout{a} = sim(file_name);                            %Simulates model
+                close_system(file_name,0);                             %Closes model                
             catch err
                 err.identifier
                 'caught error 1'
@@ -67,17 +69,17 @@ parfor a = 1:length(grav_range)
         for c = 1:size(exo_stiff_range)
             stiff = exo_stiff_range(c);
             try
-                load_system('FullHopper_passiveExo_PWM.slx');                                %Loading model                
+                load_system(file_name);                                %Loading model                
                 % CHANGE MODEL PARAMETERS
-                set_param('FullHopper_passiveExo/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
-                set_param('FullHopper_passiveExo/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
-                set_param('FullHopper_passiveExo/Vmax_mus (m\s)','Value',num2str(vmax));    %Setting muscle parameters in model
+                set_param('FullHopper_passiveExo_PWM/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
+                set_param('FullHopper_passiveExo_PWM/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
+                set_param('FullHopper_passiveExo_PWM/Vmax_mus (m\s)','Value',num2str(vmax));    %Setting muscle parameters in model
                 % FILE NAME
                 name = sprintf('exoData_grav_%s_vmax_%s_stiff_%s.mat', num2str(grav),num2str(vmax),num2str(stiff));
-                set_param('FullHopper_passiveExo/To File','FileName', name);  %Setting File Name                
+                set_param('FullHopper_passiveExo_PWM/To File','FileName', name);  %Setting File Name                
                 
-                simout{a} = sim('FullHopper_passiveExo.slx');                            %Simulates model
-                close_system('FullHopper_passiveExo.slx',0);                             %Closes model                
+                simout{a} = sim(file_name);                            %Simulates model
+                close_system(file_name,0);                             %Closes model                
             catch err
                 err.identifier
                 'caught error 2'
@@ -94,17 +96,17 @@ parfor a = 1:length(grav_range)
         for c = 1:size(exo_stiff_range)
             stiff = exo_stiff_range(c);
             try
-                load_system('FullHopper_passiveExo_PWM.slx');                                %Loading model                
+                load_system(file_name);                                %Loading model                
                 % CHANGE MODEL PARAMETERS
-                set_param('FullHopper_passiveExo/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
-                set_param('FullHopper_passiveExo/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
-                set_param('FullHopper_passiveExo/act_gain','Value',num2str(act));    %Setting muscle parameters in model
+                set_param('FullHopper_passiveExo_PWM/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
+                set_param('FullHopper_passiveExo_PWM/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
+                set_param('FullHopper_passiveExo_PWM/act_gain','Value',num2str(act));    %Setting muscle parameters in model
                 % FILE NAME
                 name = sprintf('exoData_grav_%s_act_%s_stiff_%s.mat', num2str(grav),num2str(act),num2str(stiff));
-                set_param('FullHopper_passiveExo/To File','FileName', name);  %Setting File Name                
+                set_param('FullHopper_passiveExo_PWM/To File','FileName', name);  %Setting File Name                
                 
-                simout{a} = sim('FullHopper_passiveExo.slx');                            %Simulates model
-                close_system('FullHopper_passiveExo.slx',0);                             %Closes model                
+                simout{a} = sim(file_name);                            %Simulates model
+                close_system(file_name,0);                             %Closes model                
             catch err
                 err.identifier
                 'caught error 3'
@@ -132,18 +134,18 @@ parfor a = 1:length(fmax_range)
         for c = 1:size(exo_stiff_range)
             stiff = exo_stiff_range(c);
             try
-                load_system('FullHopper_passiveExo_PWM.slx');                                %Loading model                
+                load_system(file_name);                                %Loading model                
                 % CHANGE MODEL PARAMETERS
-                set_param('FullHopper_passiveExo/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
-                set_param('FullHopper_passiveExo/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
-                set_param('FullHopper_passiveExo/Fmax_mus (N)','Value',num2str(fmax));    %Setting muscle parameters in model
-                set_param('FullHopper_passiveExo/Vmax_mus (m\s)','Value',num2str(vmax));    %Setting muscle parameters in model
+                set_param('FullHopper_passiveExo_PWM/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
+                set_param('FullHopper_passiveExo_PWM/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
+                set_param('FullHopper_passiveExo_PWM/Fmax_mus (N)','Value',num2str(fmax));    %Setting muscle parameters in model
+                set_param('FullHopper_passiveExo_PWM/Vmax_mus (m\s)','Value',num2str(vmax));    %Setting muscle parameters in model
                 % FILE NAME
                 name = sprintf('exoData_fmax_%s_vmax_%s_stiff_%s.mat', num2str(fmax),num2str(vmax),num2str(stiff));
-                set_param('FullHopper_passiveExo/To File','FileName', name);  %Setting File Name                
+                set_param('FullHopper_passiveExo_PWM/To File','FileName', name);  %Setting File Name                
                 
-                simout{a} = sim('FullHopper_passiveExo.slx');                            %Simulates model
-                close_system('FullHopper_passiveExo.slx',0);                             %Closes model                
+                simout{a} = sim(file_name);                            %Simulates model
+                close_system(file_name,0);                             %Closes model                
             catch err
                 err.identifier
                 'caught error 4'
