@@ -32,7 +32,7 @@ act = 1;
 grav = 9.81;
 
 %------------- Run F_MAX OR V_MAX OR ACT OR Fixed g ----------------------
-%% F_MAX
+%% F_MAX - Ishrat
 parfor a = 1:length(grav_range)    
     grav = grav_range(a);
     for b = 1:length(fmax_range)
@@ -59,7 +59,7 @@ parfor a = 1:length(grav_range)
     end
 end
 
-%% V_MAX
+%% V_MAX - Nicholas
 parfor a = 1:length(grav_range)    
     grav = grav_range(a);
     for b = 1:length(vmax_range)
@@ -86,7 +86,7 @@ parfor a = 1:length(grav_range)
     end
 end
 
-%% ACTIVATION
+%% ACTIVATION - Nolan
 parfor a = 1:length(grav_range)    
     grav = grav_range(a);
     for b = 1:length(act_range)
