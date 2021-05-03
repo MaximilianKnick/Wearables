@@ -40,7 +40,7 @@ parfor a = 1:length(grav_range)
         for c = 1:size(exo_stiff_range)
             stiff = exo_stiff_range(c);
             try
-                load_system('FullHopper_passiveExo.slx');                                %Loading model                
+                load_system('FullHopper_passiveExo_PWM.slx');                                %Loading model                
                 % CHANGE MODEL PARAMETERS
                 set_param('FullHopper_passiveExo/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
                 set_param('FullHopper_passiveExo/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
@@ -67,7 +67,7 @@ parfor a = 1:length(grav_range)
         for c = 1:size(exo_stiff_range)
             stiff = exo_stiff_range(c);
             try
-                load_system('FullHopper_passiveExo.slx');                                %Loading model                
+                load_system('FullHopper_passiveExo_PWM.slx');                                %Loading model                
                 % CHANGE MODEL PARAMETERS
                 set_param('FullHopper_passiveExo/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
                 set_param('FullHopper_passiveExo/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
@@ -94,7 +94,7 @@ parfor a = 1:length(grav_range)
         for c = 1:size(exo_stiff_range)
             stiff = exo_stiff_range(c);
             try
-                load_system('FullHopper_passiveExo.slx');                                %Loading model                
+                load_system('FullHopper_passiveExo_PWM.slx');                                %Loading model                
                 % CHANGE MODEL PARAMETERS
                 set_param('FullHopper_passiveExo/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
                 set_param('FullHopper_passiveExo/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
@@ -132,7 +132,7 @@ parfor a = 1:length(fmax_range)
         for c = 1:size(exo_stiff_range)
             stiff = exo_stiff_range(c);
             try
-                load_system('FullHopper_passiveExo.slx');                                %Loading model                
+                load_system('FullHopper_passiveExo_PWM.slx');                                %Loading model                
                 % CHANGE MODEL PARAMETERS
                 set_param('FullHopper_passiveExo/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
                 set_param('FullHopper_passiveExo/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
