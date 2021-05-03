@@ -35,11 +35,12 @@ file_name = 'FullHopper_passiveExo_PWM.slx';
 
 %------------- Run F_MAX OR V_MAX OR ACT OR Fixed g ----------------------
 %% F_MAX - Ishrat
+tic
 parfor a = 1:length(grav_range)    
     grav = grav_range(a);
     for b = 1:length(fmax_range)
         fmax = fmax_range(b);
-        for c = 1:size(exo_stiff_range)
+        for c = 1:length(exo_stiff_range)
             stiff = exo_stiff_range(c);
             try
                 load_system(file_name);                                %Loading model                
@@ -60,13 +61,14 @@ parfor a = 1:length(grav_range)
         end
     end
 end
-
+toc
 %% V_MAX - Nicholas
+tic
 parfor a = 1:length(grav_range)    
     grav = grav_range(a);
     for b = 1:length(vmax_range)
         vmax = vmax_range(b);
-        for c = 1:size(exo_stiff_range)
+        for c = 1:length(exo_stiff_range)
             stiff = exo_stiff_range(c);
             try
                 load_system(file_name);                                %Loading model                
@@ -87,13 +89,14 @@ parfor a = 1:length(grav_range)
         end
     end
 end
-
+toc
 %% ACTIVATION - Nolan
+tic
 parfor a = 1:length(grav_range)    
     grav = grav_range(a);
     for b = 1:length(act_range)
         act = act_range(b);
-        for c = 1:size(exo_stiff_range)
+        for c = 1:length(exo_stiff_range)
             stiff = exo_stiff_range(c);
             try
                 load_system(file_name);                                %Loading model                
@@ -114,7 +117,7 @@ parfor a = 1:length(grav_range)
         end
     end
 end
-
+toc
 %% Fixed g - F_MAX and V_MAX
 
 % grav = 3.7;   % Mercury
@@ -126,12 +129,12 @@ grav = 9.81;  % Earth
 % grav = 10.44; % Saturn
 % grav = 8.8;   % Uranus
 % grav = 11.15; % Neptune
-
+tic
 parfor a = 1:length(fmax_range)    
     fmax = fmax_range(a);
     for b = 1:length(vmax_range)
         vmax = vmax_range(b);
-        for c = 1:size(exo_stiff_range)
+        for c = 1:length(exo_stiff_range)
             stiff = exo_stiff_range(c);
             try
                 load_system(file_name);                                %Loading model                
@@ -153,3 +156,4 @@ parfor a = 1:length(fmax_range)
         end
     end
 end
+toc
