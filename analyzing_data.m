@@ -20,22 +20,24 @@ act_range = linspace(0.5,1,5);
 
 %% 3 c.
 
-phase_range   = 0:0.01:0.4;
-t_stiff_range = 180000 .* [0.25, 0.5, 1, 2, 4];
+grav_range   = 2:2:24;
+exo_stiff_range = linspace(100,200000,5);
 
-W_mtu_net = zeros(5, length(phase_range));
-W_mtu_pos = zeros(5, length(phase_range));
-W_mtu_neg = zeros(5, length(phase_range));
+fmax = fmax_range(3);
 
-for j = 1:length(phase_range)
+W_mtu_net = zeros(5, length(grav_range));
+W_mtu_pos = zeros(5, length(grav_range));
+W_mtu_neg = zeros(5, length(grav_range));
+
+for j = 1:length(grav_range)
     
-    phase = phase_range(j);
+    grav = grav_range(j);
     
-    for i = 1:length(t_stiff_range)
+    for i = 1:length(exo_stiff_range)
         
-        t_stiff = t_stiff_range(i);
+        exo_stiff = exo_stiff_range(i);
         
-        fid = strcat('phase_',num2str(phase),'_stiff_',num2str(t_stiff),'.mat');
+        fid = sprintf('exoData_grav_%s_fmax_%s_stiff_%s.mat', num2str(grav),num2str(fmax),num2str(exo_stiff));
 
         if exist(fid, 'file') == 2          % Checking if file exists      
 
@@ -44,7 +46,7 @@ for j = 1:length(phase_range)
             data = d.data.data;
             t0 = t>=1.4 & t<=1.8;
 
-            P = data(t0,12);
+            P = data(t0,20);
             W_mtu_net(i, j) = sum(P);
             W_mtu_pos(i, j) = sum(P(P>0));
             W_mtu_neg(i, j) = sum(P(P<0));
@@ -55,18 +57,18 @@ end
 
 figure(3)
 subplot(3,1,1);
-bar(phase_range, W_mtu_net);
-h = bar(phase_range, W_mtu_net);
+bar(grav_range, W_mtu_net);
+h = bar(grav_range, W_mtu_net);
 legend(h, {'45000', '90000', '180000', '360000', '720000'}, 'Location','southwest');
 legend('boxoff')
 ylabel('Net Mechanical Work (J)');
 
 subplot(3,1,2);
-bar(phase_range, W_mtu_pos);
+bar(grav_range, W_mtu_pos);
 ylabel('Positive Mechanical Work (J)');
 
 subplot(3,1,3);
-bar(phase_range, W_mtu_neg); 
+bar(grav_range, W_mtu_neg); 
 xlabel ('Muscle simulation onset phase (s)')
 ylabel('Negative Mechanical Work (J)');
 
