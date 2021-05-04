@@ -8,7 +8,7 @@
 close all
 clear all
 clc
-tic
+
 %% Variables
 
 exo_stiff_range = linspace(50000,200000,5);
@@ -126,7 +126,7 @@ ylabel(h,'Contour Values')
 xlabel('Exo Stiffness (N/m)')
 ylabel('v_m_a_x (m/s^2)')
 h.Label.String = 'P_m_e_t (W/kg)';
-title('Average Metabolic Rate - v_m_a_x changing', 'FontSize', 20)
+title('Average Metabolic Rate - v_m_a_x changing')
 %set(gca,'FontSize',20)
 
 
@@ -240,7 +240,7 @@ ylabel(h,'Contour Values')
 xlabel('Exo Stiffness (N/m)')
 ylabel('Activation')
 h.Label.String = 'P_m_e_t (W/kg)';
-title('Average Metabolic Rate - Activation changing', 'FontSize', 20)
+title('Average Metabolic Rate - Activation changing')
 %set(gca,'FontSize',20)
 
 %% P_met - stiffness vs. gravity (nominal fmax/vmax/act)  -------- Nolan
@@ -296,7 +296,7 @@ ylabel(h,'Contour Values')
 xlabel('Exo Stiffness (N/m)')
 ylabel('Gravity (m/s^2)')
 h.Label.String = 'P_m_e_t (W/kg)';
-title('Average Metabolic Rate - Gravity changing', 'FontSize', 20)
+title('Average Metabolic Rate - Gravity changing')
 % set(gca,'FontSize',20)
 
 
