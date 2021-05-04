@@ -298,3 +298,74 @@ ylabel('Gravity (m/s^2)')
 h.Label.String = 'P_m_e_t (W/kg)';
 title('Average Metabolic Rate - Gravity changing')
 % set(gca,'FontSize',20)
+
+%% P_met - stiffness vs. act vs grav ----------- Nolan
+
+P_met = zeros(length(act_range), length(exo_stiff_range));
+
+T_stim = 20;
+
+mass = 35;
+vmax = -0.45;
+fmax = 6000;
+
+for k = 1:length(grav_range)
+    grav = grav_range(k);
+    
+    for i = 1:length(act_range)
+        
+        Act = act_range(i);
+        
+        for j = 1:length(exo_stiff_range)
+            
+            exo_stiff = exo_stiff_range(j);
+            
+            fid = sprintf('exoData_grav_%s_act_%s_stiff_%s.mat', num2str(grav),num2str(Act),num2str(exo_stiff));
+            
+            if exist(fid, 'file') == 2          % Checking if file exists
+                
+                d = load(fid);          % Loads data from file
+                t = d.data.time;
+                data = d.data.data;
+                
+                act = data(:,4);
+                v_m = data(:,11);   % USED v_m - Check if v_mtu(10) works better
+                phi = zeros(length(v_m), 1);
+                vpos = v_m > 0;
+                vneg = ~vpos;
+                
+                
+                phi(vpos) = 0.01 - 0.11.*(v_m(vpos)./vmax) + 0.06*exp(23*v_m(vpos)./vmax);
+                phi(vneg) = 0.23 - 0.16*exp(-8*v_m(vneg)./vmax);
+                
+                integrand = (fmax * act * abs(vmax).* phi)./ mass;
+                
+                P_met(j, i, k) = trapz(t, integrand)/T_stim;
+                
+            end
+        end
+    end
+    
+end
+
+[exo_stiff_range,act_range] = meshgrid(exo_stiff_range,act_range);
+
+for i = 1:length(grav_range)
+    grav = grav_range(i);
+    
+    
+    figure(i)
+    c = contourf(exo_stiff_range,act_range, P_met(:,:,i) , 20,'edgecolor', 'none');
+    h = colorbar;
+    ylabel(h,'Contour Values')
+    xlabel('Exo Stiffness (N/m)')
+    ylabel('Activation')
+    h.Label.String = 'P_m_e_t (W/kg)';
+    title(sprintf('Average Metabolic Rate - Activation changing, gravity = %s m/s^2', num2str(grav) ))
+    %set(gca,'FontSize',20)
+    
+    saveas(gcf,sprintf('Pmet_act_%s.png', num2str(i+1))) %save figure
+end
+
+
+
