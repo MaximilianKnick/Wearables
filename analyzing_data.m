@@ -442,7 +442,7 @@ end
 for c = 1:length(grav_range)
     grav = grav_range(c);
     figure(c)
-    c = contourf(exo_stiff_range,fmax_range, P_met(:,:,c) , 20,'edgecolor', 'none');
+    c0 = contourf(exo_stiff_range,fmax_range, P_met(:,:,c) , 20,'edgecolor', 'none');
     h = colorbar;
     ylabel(h,'Contour Values')
     xlabel('Exo Stiffness (N/m)')
@@ -510,7 +510,7 @@ end
 for c = 1:length(grav_range)
     grav = grav_range(c);
     figure(c)
-    c = contourf(exo_stiff_range,act_range, P_met(:,:,c) , 20,'edgecolor', 'none');
+    c0 = contourf(exo_stiff_range,act_range, P_met(:,:,c) , 20,'edgecolor', 'none');
     h = colorbar;
     ylabel(h,'Contour Values')
     xlabel('Exo Stiffness (N/m)')
@@ -581,10 +581,10 @@ end
 
 X = grav_range;
 Y = R;
-
+[Xm,Ym] = meshgrid(X,Y);
 figure(1)
 Z = ideal_stiff_jump;
-s = surf(X,Y,Z,'FaceAlpha',0.5);
+s = surf(Z','FaceAlpha',0.5);
 shading interp
 s.EdgeColor = [0.1,0.1,0.1];
 xlabel('Gravity (m/s^2)');
@@ -594,7 +594,7 @@ title('Ideal Exo Stiffness for Atrophy vs. Gravity [Jumping]')
 
 figure(2)
 Z = ideal_stiff_land;
-s = surf(X,Y,Z,'FaceAlpha',0.5);
+s = surf(Z','FaceAlpha',0.5);
 shading interp
 s.EdgeColor = [0.1,0.1,0.1];
 xlabel('Gravity (m/s^2)');
@@ -604,100 +604,10 @@ title('Ideal Exo Stiffness for Atrophy vs. Gravity [Landing]')
 
 figure(3)
 Z = ideal_stiff_minWork;
-s = surf(X,Y,Z,'FaceAlpha',0.5);
+s = surf(Z','FaceAlpha',0.5);
 shading interp
 s.EdgeColor = [0.1,0.1,0.1];
 xlabel('Gravity (m/s^2)');
 ylabel('Microgravity Atrophy Level');
 zlabel('Ideal Exo Stiffness (N/m)');
 title('Ideal Exo Stiffness for Atrophy vs. Gravity [Minimum Work]')
-
-
-%% 10.
-
-% Moon - Ideal Stiffness Plot ----------- Rish
-
-ideal_stiff_jump = zeros(length(fmax_range), length(vmax_range));
-ideal_stiff_land = zeros(length(fmax_range), length(vmax_range));
-ideal_stiff_minWork = zeros(length(fmax_range), length(vmax_range));
-
-for a = 1:length(fmax_range)
-    
-    fmax = fmax_range(a);
-    
-    for b = 1:length(vmax_range)
-        
-        vmax = vmax_range(b);
-        
-        W_mtu_net = zeros(1, length(exo_stiff_range));
-        W_mtu_pos = zeros(1, length(exo_stiff_range));
-        W_mtu_neg = zeros(1, length(exo_stiff_range));
-        
-        for c = 1:length(exo_stiff_range)
-            
-            exo_stiff = exo_stiff_range(c);
-            
-            fid = sprintf('exoData_Moon_fmax_%s_vmax_%s_stiff_%s.mat', num2str(fmax),num2str(vmax),num2str(exo_stiff));
-            
-            if exist(fid, 'file') == 2          % Checking if file exists
-                
-                d = load(fid);          % Loads data from file
-                t = d.data.time;
-                data = d.data.data;
-                u = data(:,1);
-                crossings = find(diff(u) > 0);
-                start = crossings(end-1);
-                last = crossings(end);
-                
-                P = data(start:last,20);
-                W_mtu_net(c) = sum(P);
-                W_mtu_pos(c) = sum(P(P>0));
-                W_mtu_neg(c) = sum(P(P<0));
-            end
-        end
-        
-        [~, ind] = max(W_mtu_pos);
-        ideal_stiff_jump(a,b) = exo_stiff_range(ind);
-        
-        [~, ind] = min(W_mtu_neg);
-        ideal_stiff_land(a,b) = exo_stiff_range(ind);
-        
-        [~, ind] = min(abs(W_mtu_net));
-        ideal_stiff_minWork(a,b) = exo_stiff_range(ind);
-        
-    end
-end
-
-X = fmax_range;
-Y = vmax_range;
-
-figure(1)
-Z = ideal_stiff_jump;
-s = surf(X,Y,Z,'FaceAlpha',0.5);
-shading interp
-s.EdgeColor = [0.1,0.1,0.1];
-xlabel('F_m_a_x (N)');
-ylabel('v_m_a_x (m/s)');
-zlabel('Ideal Exo Stiffness (N/m)');
-title('Ideal Exo Stiffness for the Moon with Varied Atrophy [Jumping]')
-
-figure(2)
-Z = ideal_stiff_land;
-s = surf(X,Y,Z,'FaceAlpha',0.5);
-shading interp
-s.EdgeColor = [0.1,0.1,0.1];
-xlabel('F_m_a_x (N)');
-ylabel('v_m_a_x (m/s)');
-zlabel('Ideal Exo Stiffness (N/m)');
-title('Ideal Exo Stiffness for the Moon with Varied Atrophy [Landing]')
-
-figure(3)
-Z = ideal_stiff_minWork;
-s = surf(X,Y,Z,'FaceAlpha',0.5);
-shading interp
-s.EdgeColor = [0.1,0.1,0.1];
-xlabel('F_m_a_x (N)');
-ylabel('v_m_a_x (m/s)');
-zlabel('Ideal Exo Stiffness (N/m)');
-title('Ideal Exo Stiffness for the Moon with Varied Atrophy [Minimum Total Work]')
-
