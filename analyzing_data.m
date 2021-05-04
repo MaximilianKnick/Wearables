@@ -524,19 +524,21 @@ end
 
 %% 9.
 
-% Mars - Ideal Stiffness Plot ----------- Rish
+% Ideal Stiffness Plot ----------- Rish
 
-ideal_stiff_jump = zeros(length(fmax_range), length(vmax_range));
-ideal_stiff_land = zeros(length(fmax_range), length(vmax_range));
-ideal_stiff_minWork = zeros(length(fmax_range), length(vmax_range));
+R = linspace(.3,1,5);
 
-for a = 1:length(fmax_range)
+ideal_stiff_jump = zeros(length(grav_range), length(R));
+ideal_stiff_land = zeros(length(grav_range), length(R));
+ideal_stiff_minWork = zeros(length(grav_range), length(R));
+
+for a = 1:length(grav_range)
     
-    fmax = fmax_range(a);
+    grav = grav_range(a);
     
-    for b = 1:length(vmax_range)
+    for b = 1:length(R)
         
-        vmax = vmax_range(b);
+        R_level = R(b);
         
         W_mtu_net = zeros(1, length(exo_stiff_range));
         W_mtu_pos = zeros(1, length(exo_stiff_range));
@@ -546,7 +548,7 @@ for a = 1:length(fmax_range)
             
             exo_stiff = exo_stiff_range(c);
             
-            fid = sprintf('exoData_Mars_fmax_%s_vmax_%s_stiff_%s.mat', num2str(fmax),num2str(vmax),num2str(exo_stiff));
+            fid = sprintf('exoData_grav_%s_R_%s_stiff_%s.mat', num2str(grav),num2str(R_level),num2str(exo_stiff));
             
             if exist(fid, 'file') == 2          % Checking if file exists
                 
@@ -577,38 +579,38 @@ for a = 1:length(fmax_range)
     end
 end
 
-X = fmax_range;
-Y = vmax_range;
+X = grav_range;
+Y = R;
 
 figure(1)
 Z = ideal_stiff_jump;
 s = surf(X,Y,Z,'FaceAlpha',0.5);
 shading interp
 s.EdgeColor = [0.1,0.1,0.1];
-xlabel('F_m_a_x (N)');
-ylabel('v_m_a_x (m/s)');
+xlabel('Gravity (m/s^2)');
+ylabel('Microgravity Atrophy Level');
 zlabel('Ideal Exo Stiffness (N/m)');
-title('Ideal Exo Stiffness for Mars with Varied Atrophy [Jumping]')
+title('Ideal Exo Stiffness for Atrophy vs. Gravity [Jumping]')
 
 figure(2)
 Z = ideal_stiff_land;
 s = surf(X,Y,Z,'FaceAlpha',0.5);
 shading interp
 s.EdgeColor = [0.1,0.1,0.1];
-xlabel('F_m_a_x (N)');
-ylabel('v_m_a_x (m/s)');
+xlabel('Gravity (m/s^2)');
+ylabel('Microgravity Atrophy Level');
 zlabel('Ideal Exo Stiffness (N/m)');
-title('Ideal Exo Stiffness for Mars with Varied Atrophy [Landing]')
+title('Ideal Exo Stiffness for Atrophy vs. Gravity [Landing]')
 
 figure(3)
 Z = ideal_stiff_minWork;
 s = surf(X,Y,Z,'FaceAlpha',0.5);
 shading interp
 s.EdgeColor = [0.1,0.1,0.1];
-xlabel('F_m_a_x (N)');
-ylabel('v_m_a_x (m/s)');
+xlabel('Gravity (m/s^2)');
+ylabel('Microgravity Atrophy Level');
 zlabel('Ideal Exo Stiffness (N/m)');
-title('Ideal Exo Stiffness for Mars with Varied Atrophy [Minimum Total Work]')
+title('Ideal Exo Stiffness for Atrophy vs. Gravity [Minimum Work]')
 
 
 %% 10.
