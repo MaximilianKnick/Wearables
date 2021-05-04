@@ -299,6 +299,73 @@ h.Label.String = 'P_m_e_t (W/kg)';
 title('Average Metabolic Rate - Gravity changing')
 % set(gca,'FontSize',20)
 
+%% P_met 4D - fmax
+
+
+% P_met = zeros(length(fmax_range), length(exo_stiff_range));
+
+P_met = [];
+
+T_stim = 20;
+
+mass = 35;
+vmax = -0.45;
+
+for i = 1:length(fmax_range)
+    
+    fmax = fmax_range(i);
+    
+    for j = 1:length(exo_stiff_range)
+        
+        exo_stiff = exo_stiff_range(j);
+        
+        for k = 1:length(grav_range)
+            
+            grav = grav_range(k);
+            
+            fid = sprintf('exoData_grav_%s_fmax_%s_stiff_%s.mat', num2str(grav),num2str(fmax),num2str(exo_stiff));
+
+            if exist(fid, 'file') == 2          % Checking if file exists      
+
+                d = load(fid);          % Loads data from file
+                t = d.data.time;        
+                data = d.data.data;
+
+                act = data(:,4);
+                v_m = data(:,11);   % USED v_m - Check if v_mtu(10) works better
+                phi = zeros(length(v_m), 1);
+                vpos = v_m > 0;
+                vneg = ~vpos;
+
+
+                phi(vpos) = 0.01 - 0.11.*(v_m(vpos)./vmax) + 0.06*exp(23*v_m(vpos)./vmax);
+                phi(vneg) = 0.23 - 0.16*exp(-8*v_m(vneg)./vmax);
+
+                integrand = (fmax * act * abs(vmax).* phi)./ mass;
+
+                P_met(j, i, k) = trapz(t, integrand)/T_stim;
+
+            end
+        
+
+        end
+    end
+end
+
+[exo_stiff_range,fmax_range, grav_range] = meshgrid(exo_stiff_range,fmax_range, grav_range);
+
+c = surf(exo_stiff_range,fmax_range, grav_range, P_met);
+h = colorbar;
+ylabel(h,'Contour Values')
+xlabel('Exo Stiffness (N/m)')
+ylabel('f_m_a_x (N)')
+zlabel('Gravity (m/s^2)');
+h.Label.String = 'P_m_e_t (W/kg)';
+title('Average Metabolic Rate - f_m_a_x changing at various g')
+% set(gca,'FontSize',20)
+
+
+
 
 
 
