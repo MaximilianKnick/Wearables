@@ -41,9 +41,9 @@ for j = 1:length(grav_range)
     
     grav = grav_range(j);
     
-    for c = 1:length(exo_stiff_range)
+    for i = 1:length(exo_stiff_range)
         
-        exo_stiff = exo_stiff_range(c);
+        exo_stiff = exo_stiff_range(i);
         
         fid = sprintf('exoData_grav_%s_vmax_%s_stiff_%s.mat', num2str(grav),num2str(vmax),num2str(exo_stiff));
 
@@ -58,9 +58,9 @@ for j = 1:length(grav_range)
             last = crossings(end);
 
             P = data(start:last,20);
-            W_mtu_net(c, j) = sum(P);
-            W_mtu_pos(c, j) = sum(P(P>0));
-            W_mtu_neg(c, j) = sum(P(P<0));
+            W_mtu_net(i, j) = sum(P);
+            W_mtu_pos(i, j) = sum(P(P>0));
+            W_mtu_neg(i, j) = sum(P(P<0));
 
         end
     end
@@ -97,9 +97,9 @@ mass = 35;
 grav = 10;
 f_max = 6000;
 
-for c = 1:length(vmax_range)
+for i = 1:length(vmax_range)
     
-    vmax = vmax_range(c);
+    vmax = vmax_range(i);
     
     for j = 1:length(exo_stiff_range)
         
@@ -125,7 +125,7 @@ for c = 1:length(vmax_range)
             
             integrand = (f_max * act * abs(vmax).* phi)./ mass;
 
-            P_met(j, c) = trapz(t, integrand)/T_stim;
+            P_met(j, i) = trapz(t, integrand)/T_stim;
 
         end
     end
@@ -156,9 +156,9 @@ mass = 35;
 grav = 10;
 vmax = -0.45;
 
-for c = 1:length(fmax_range)
+for i = 1:length(fmax_range)
     
-    fmax = fmax_range(c);
+    fmax = fmax_range(i);
     
     for j = 1:length(exo_stiff_range)
         
@@ -184,7 +184,7 @@ for c = 1:length(fmax_range)
             
             integrand = (fmax * act * abs(vmax).* phi)./ mass;
 
-            P_met(j, c) = trapz(t, integrand)/T_stim;
+            P_met(j, i) = trapz(t, integrand)/T_stim;
 
         end
     end
@@ -215,9 +215,9 @@ grav = 10;
 vmax = -0.45;
 fmax = 6000;
 
-for c = 1:length(act_range)
+for i = 1:length(act_range)
     
-    Act = act_range(c);
+    Act = act_range(i);
     
     for j = 1:length(exo_stiff_range)
         
@@ -243,7 +243,7 @@ for c = 1:length(act_range)
             
             integrand = (fmax * act * abs(vmax).* phi)./ mass;
 
-            P_met(j, c) = trapz(t, integrand)/T_stim;
+            P_met(j, i) = trapz(t, integrand)/T_stim;
 
         end
     end
@@ -271,9 +271,9 @@ mass = 35;
 vmax = -0.45;
 fmax = 6000;
 
-for c = 1:length(grav_range)
+for i = 1:length(grav_range)
     
-    grav = grav_range(c);
+    grav = grav_range(i);
     
     for j = 1:length(exo_stiff_range)
         
@@ -299,7 +299,7 @@ for c = 1:length(grav_range)
             
             integrand = (fmax * act * abs(vmax).* phi)./ mass;
 
-            P_met(j, c) = trapz(t, integrand)/T_stim;
+            P_met(j, i) = trapz(t, integrand)/T_stim;
 
         end
     end
@@ -330,9 +330,9 @@ fmax = 6000;
 for k = 1:length(grav_range)
     grav = grav_range(k);
     
-    for c = 1:length(vmax_range)
+    for i = 1:length(vmax_range)
         
-        vmax = vmax_range(c);
+        vmax = vmax_range(i);
         
         for j = 1:length(exo_stiff_range)
             
@@ -358,7 +358,7 @@ for k = 1:length(grav_range)
                 
                 integrand = (fmax * act * abs(vmax).* phi)./ mass;
                 
-                P_met(j, c, k) = trapz(t, integrand)/T_stim;
+                P_met(j, i, k) = trapz(t, integrand)/T_stim;
                 
             end
         end
@@ -370,10 +370,10 @@ end
 [exo_stiff_range,vmax_range] = meshgrid(exo_stiff_range,vmax_range); % Define mesh
 
 % Generate P_met Colormaps for various g's
-for c = 1:length(grav_range)
-    grav = grav_range(c);
-    figure(c)
-    c = contourf(exo_stiff_range,vmax_range, P_met(:,:,c) , 20,'edgecolor', 'none');
+for i = 1:length(grav_range)
+    grav = grav_range(i);
+    figure(i)
+    c = contourf(exo_stiff_range,vmax_range, P_met(:,:,i) , 20,'edgecolor', 'none');
     h = colorbar;
     ylabel(h,'Contour Values')
     xlabel('Exo Stiffness (N/m)')
@@ -381,7 +381,7 @@ for c = 1:length(grav_range)
     h.Label.String = 'P_m_e_t (W/kg)';
     title(sprintf('Average Metabolic Rate - v_m_a_x vs. Exo Stiffness , g = %s m/s^2', num2str(grav) ))
     %set(gca,'FontSize',20)
-    saveas(gcf,sprintf('Pmet_vmax_%s.png', num2str(c+1))) %save figure
+    saveas(gcf,sprintf('Pmet_vmax_%s.png', num2str(i+1))) %save figure
 end
 
 %% 7. 
@@ -399,9 +399,9 @@ Act = 1;
 for k = 1:length(grav_range)
     grav = grav_range(k);
     
-    for c = 1:length(fmax_range)
+    for i = 1:length(fmax_range)
         
-        fmax = fmax_range(c);
+        fmax = fmax_range(i);
         
         for j = 1:length(exo_stiff_range)
             
@@ -427,7 +427,7 @@ for k = 1:length(grav_range)
                 
                 integrand = (fmax * act * abs(vmax).* phi)./ mass;
                 
-                P_met(j, c, k) = trapz(t, integrand)/T_stim;
+                P_met(j, i, k) = trapz(t, integrand)/T_stim;
                 
             end
         end
@@ -439,10 +439,10 @@ end
 [exo_stiff_range,fmax_range] = meshgrid(exo_stiff_range,fmax_range); % Define mesh
 
 % Generate P_met Colormaps for various g's
-for c = 1:length(grav_range)
-    grav = grav_range(c);
-    figure(c)
-    c0 = contourf(exo_stiff_range,fmax_range, P_met(:,:,c) , 20,'edgecolor', 'none');
+for i = 1:length(grav_range)
+    grav = grav_range(i);
+    figure(i)
+    c = contourf(exo_stiff_range,fmax_range, P_met(:,:,i) , 20,'edgecolor', 'none');
     h = colorbar;
     ylabel(h,'Contour Values')
     xlabel('Exo Stiffness (N/m)')
@@ -450,7 +450,7 @@ for c = 1:length(grav_range)
     h.Label.String = 'P_m_e_t (W/kg)';
     title(sprintf('Average Metabolic Rate - f_m_a_x vs. Exo Stiffness , g = %s m/s^2', num2str(grav) ))
     %set(gca,'FontSize',20)
-    saveas(gcf,sprintf('Pmet_fmax_%s.png', num2str(c+1))) %save figure
+    saveas(gcf,sprintf('Pmet_fmax_%s.png', num2str(i+1))) %save figure
 end
 
 %% 8. 
@@ -468,9 +468,9 @@ fmax = 6000;
 for k = 1:length(grav_range)
     grav = grav_range(k);
     
-    for c = 1:length(act_range)
+    for i = 1:length(act_range)
         
-        Act = act_range(c);
+        Act = act_range(i);
         
         for j = 1:length(exo_stiff_range)
             
@@ -496,7 +496,7 @@ for k = 1:length(grav_range)
                 
                 integrand = (fmax * act * abs(vmax).* phi)./ mass;
                 
-                P_met(j, c, k) = trapz(t, integrand)/T_stim;
+                P_met(j, i, k) = trapz(t, integrand)/T_stim;
                 
             end
         end
@@ -507,10 +507,10 @@ end
 [exo_stiff_range,act_range] = meshgrid(exo_stiff_range,act_range); % Define mesh
 
 % Generate P_met Colormaps for various g's
-for c = 1:length(grav_range)
-    grav = grav_range(c);
-    figure(c)
-    c0 = contourf(exo_stiff_range,act_range, P_met(:,:,c) , 20,'edgecolor', 'none');
+for i = 1:length(grav_range)
+    grav = grav_range(i);
+    figure(i)
+    c0 = contourf(exo_stiff_range,act_range, P_met(:,:,i) , 20,'edgecolor', 'none');
     h = colorbar;
     ylabel(h,'Contour Values')
     xlabel('Exo Stiffness (N/m)')
@@ -518,7 +518,7 @@ for c = 1:length(grav_range)
     h.Label.String = 'P_m_e_t (W/kg)';
     title(sprintf('Average Metabolic Rate - Activation vs. Exo Stiffness, g = %s m/s^2', num2str(grav) ))
     %set(gca,'FontSize',20)
-    saveas(gcf,sprintf('Pmet_act_%s.png', num2str(c+1))) %save figure
+    saveas(gcf,sprintf('Pmet_act_%s.png', num2str(i+1))) %save figure
 end
 
 
@@ -544,9 +544,9 @@ for a = 1:length(grav_range)
         W_mtu_pos = zeros(1, length(exo_stiff_range));
         W_mtu_neg = zeros(1, length(exo_stiff_range));
         
-        for c = 1:length(exo_stiff_range)
+        for i = 1:length(exo_stiff_range)
             
-            exo_stiff = exo_stiff_range(c);
+            exo_stiff = exo_stiff_range(i);
             
             fid = sprintf('exoData_grav_%s_R_%s_stiff_%s.mat', num2str(grav),num2str(R_level),num2str(exo_stiff));
             
@@ -561,9 +561,9 @@ for a = 1:length(grav_range)
                 last = crossings(end);
                 
                 P = data(start:last,20);
-                W_mtu_net(c) = sum(P);
-                W_mtu_pos(c) = sum(P(P>0));
-                W_mtu_neg(c) = sum(P(P<0));
+                W_mtu_net(i) = sum(P);
+                W_mtu_pos(i) = sum(P(P>0));
+                W_mtu_neg(i) = sum(P(P<0));
             end
         end
         
