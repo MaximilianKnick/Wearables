@@ -313,7 +313,7 @@ ylabel(h,'Contour Values')
 xlabel('Exo Stiffness (N/m)')
 ylabel('Gravity (m/s^2)')
 h.Label.String = 'P_m_e_t (W/kg)';
-title('Average Metabolic Rate - Gravity changing')
+title('Average Metabolic Rate - Gravity vs. Exo Stiffness')
 % set(gca,'FontSize',20)
 
 %% 6. 
