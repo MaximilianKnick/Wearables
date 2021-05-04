@@ -167,3 +167,40 @@ parfor a = 1:length(planets)
     end
 end
 toc
+%% R -- Rish
+R = linspace(.3,1,5);
+fmax_R = 6000 - (.2*R); %[0.7 0.85 1 1.15 1.3];
+vmax_R = -0.45 - (0.35*R); %[0.5 0.75 1 1.25 1.5];
+act_R = 1 - (.45*R); % Activation is default minus .45*R
+tic
+parfor a = 1:length(grav_range)    
+    grav = grav_range(a);
+    for b = 1:length(R)
+        fmax = fmax_R(b);
+        vmax = vmax_R(b);
+        act = act_R(b)
+        R_level = R(b);
+        for c = 1:length(exo_stiff_range)
+            stiff = exo_stiff_range(c);
+            try
+                load_system(file_name);                                %Loading model                
+                % CHANGE MODEL PARAMETERS
+                set_param('FullHopper_passiveExo_PWM/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
+                set_param('FullHopper_passiveExo_PWM/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
+                set_param('FullHopper_passiveExo_PWM/Fmax_mus (N)','Value',num2str(fmax));    %Setting muscle parameters in model
+                set_param('FullHopper_passiveExo_PWM/Vmax_mus (m\s)','Value',num2str(vmax));    %Setting muscle parameters in model
+                set_param('FullHopper_passiveExo_PWM/act_gain','Value',num2str(act));    %Setting muscle parameters in model
+                % FILE NAME
+                name = sprintf('exoData_grav_%s_R_%s_stiff_%s.mat', num2str(grav),num2str(R_level),num2str(stiff));
+                set_param('FullHopper_passiveExo_PWM/To File','FileName', name);  %Setting File Name                
+                
+                simout{a} = sim(file_name);                            %Simulates model
+                close_system(file_name,0);                             %Closes model                
+            catch err
+                err.identifier
+                'caught error 1'
+            end
+        end
+    end
+end
+toc

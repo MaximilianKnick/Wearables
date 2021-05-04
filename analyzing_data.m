@@ -546,7 +546,7 @@ for a = 1:length(fmax_range)
             
             exo_stiff = exo_stiff_range(c);
             
-            fid = sprintf('exoData_Mars_fmax_%s_vmax_%s_stiff_%s.mat', num2str(fmax),num2str(vmax),num2str(stiff));
+            fid = sprintf('exoData_Mars_fmax_%s_vmax_%s_stiff_%s.mat', num2str(fmax),num2str(vmax),num2str(exo_stiff));
             
             if exist(fid, 'file') == 2          % Checking if file exists
                 
@@ -635,7 +635,7 @@ for a = 1:length(fmax_range)
             
             exo_stiff = exo_stiff_range(c);
             
-            fid = sprintf('exoData_Moon_fmax_%s_vmax_%s_stiff_%s.mat', num2str(fmax),num2str(vmax),num2str(stiff));
+            fid = sprintf('exoData_Moon_fmax_%s_vmax_%s_stiff_%s.mat', num2str(fmax),num2str(vmax),num2str(exo_stiff));
             
             if exist(fid, 'file') == 2          % Checking if file exists
                 
