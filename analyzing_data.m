@@ -59,7 +59,7 @@ figure(3)
 subplot(3,1,1);
 bar(grav_range, W_mtu_net);
 h = bar(grav_range, W_mtu_net);
-% legend(h, mat2cell(exo_stiff_range), 'Location','southwest');
+legend(h, {'50 kN/m','87.5 kN/m','125 kN/m','162.5 kN/m','200 kN/m'},'Location','southwest');
 legend('boxoff')
 ylabel('Net Mechanical Work (J)');
 
@@ -75,13 +75,13 @@ ylabel('Negative Mechanical Work (J)');
 sgtitle('Work vs. Gravity at Multiple Exo Stiffnesses')
 toc
 
-%% P_met - stiffness vs. vmax (fixed g = 9.81)
+%% P_met - stiffness vs. vmax (fixed g = 10)  ------------ Nick
 P_met = zeros(length(vmax_range), length(exo_stiff_range));
 
 T_stim = 20;
 
 mass = 35;
-grav = 9.81;
+grav = 10;
 f_max = 6000;
 
 for i = 1:length(vmax_range)
@@ -101,7 +101,7 @@ for i = 1:length(vmax_range)
             data = d.data.data;
             
             act = data(:,4);
-            v_m = data(:,11);   % USED v_m - Check if v_mtu(11) works better
+            v_m = data(:,11);   % USED v_m - Check if v_mtu(10) works better
             phi = zeros(length(v_m), 1);
             vpos = v_m > 0;
             vneg = ~vpos;
@@ -124,21 +124,21 @@ c = contourf(exo_stiff_range,vmax_range, P_met , 20,'edgecolor', 'none');
 h = colorbar;
 ylabel(h,'Contour Values')
 xlabel('Exo Stiffness (N/m)')
-ylabel('v_max (m/s^2)')
+ylabel('v_m_a_x (m/s^2)')
 h.Label.String = 'P_m_e_t (W/kg)';
-title('Average Metabolic Rate - v_m_a_x changing', 'FontSize', 30)
-set(gca,'FontSize',20)
+title('Average Metabolic Rate - v_m_a_x changing', 'FontSize', 20)
+%set(gca,'FontSize',20)
 
 
 
-%% P_met - stiffness vs. fmax (fixed g = 9.81)
+%% P_met - stiffness vs. fmax (fixed g = 10) -------------- Rish
 
 P_met = zeros(length(fmax_range), length(exo_stiff_range));
 
 T_stim = 20;
 
 mass = 35;
-grav = 9.81;
+grav = 10;
 vmax = -0.45;
 
 for i = 1:length(fmax_range)
@@ -158,7 +158,7 @@ for i = 1:length(fmax_range)
             data = d.data.data;
             
             act = data(:,4);
-            v_m = data(:,11);   % USED v_m - Check if v_mtu(11) works better
+            v_m = data(:,11);   % USED v_m - Check if v_mtu(10) works better
             phi = zeros(length(v_m), 1);
             vpos = v_m > 0;
             vneg = ~vpos;
@@ -181,20 +181,20 @@ c = contourf(exo_stiff_range,fmax_range, P_met , 20,'edgecolor', 'none');
 h = colorbar;
 ylabel(h,'Contour Values')
 xlabel('Exo Stiffness (N/m)')
-ylabel('f_max (N)')
+ylabel('f_m_a_x (N)')
 h.Label.String = 'P_m_e_t (W/kg)';
-title('Average Metabolic Rate - f_m_a_x changing', 'FontSize', 30)
-set(gca,'FontSize',20)
+title('Average Metabolic Rate - f_m_a_x changing')
+% set(gca,'FontSize',20)
 
 
-%% P_met - stiffness vs. act (fixed g = 9.81)
+%% P_met - stiffness vs. act (fixed g = 10) ----------- Nolan
 
 P_met = zeros(length(act_range), length(exo_stiff_range));
 
 T_stim = 20;
 
 mass = 35;
-grav = 9.81;
+grav = 10;
 vmax = -0.45;
 fmax = 6000;
 
@@ -215,7 +215,7 @@ for i = 1:length(act_range)
             data = d.data.data;
             
             act = data(:,4);
-            v_m = data(:,11);   % USED v_m - Check if v_mtu(11) works better
+            v_m = data(:,11);   % USED v_m - Check if v_mtu(10) works better
             phi = zeros(length(v_m), 1);
             vpos = v_m > 0;
             vneg = ~vpos;
@@ -240,13 +240,14 @@ ylabel(h,'Contour Values')
 xlabel('Exo Stiffness (N/m)')
 ylabel('Activation')
 h.Label.String = 'P_m_e_t (W/kg)';
-title('Average Metabolic Rate - Activation changing', 'FontSize', 30)
-set(gca,'FontSize',20)
+title('Average Metabolic Rate - Activation changing', 'FontSize', 20)
+%set(gca,'FontSize',20)
 
-%% P_met - stiffness vs. gravity (nominal fmax/vmax/act)
+%% P_met - stiffness vs. gravity (nominal fmax/vmax/act)  -------- Nolan
 
-P_met = zeros(length(grav_range), length(exo_stiff_range));
+% P_met = zeros(length(grav_range), length(exo_stiff_range));
 
+P_met = [];
 T_stim = 20;
 
 mass = 35;
@@ -270,7 +271,7 @@ for i = 1:length(grav_range)
             data = d.data.data;
             
             act = data(:,4);
-            v_m = data(:,11);   % USED v_m - Check if v_mtu(11) works better
+            v_m = data(:,11);   % USED v_m - Check if v_mtu(10) works better
             phi = zeros(length(v_m), 1);
             vpos = v_m > 0;
             vneg = ~vpos;
@@ -289,14 +290,14 @@ end
 
 [exo_stiff_range,grav_range] = meshgrid(exo_stiff_range,grav_range);
 
-c = contourf(exo_stiff_range,grav_range, P_met , 20,'edgecolor', 'none');
+c = contourf(exo_stiff_range,grav_range, P_met' , 20,'edgecolor', 'none');
 h = colorbar;
 ylabel(h,'Contour Values')
 xlabel('Exo Stiffness (N/m)')
 ylabel('Gravity (m/s^2)')
 h.Label.String = 'P_m_e_t (W/kg)';
-title('Average Metabolic Rate - Gravity changing', 'FontSize', 30)
-set(gca,'FontSize',20)
+title('Average Metabolic Rate - Gravity changing', 'FontSize', 20)
+% set(gca,'FontSize',20)
 
 
 
