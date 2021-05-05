@@ -204,3 +204,39 @@ parfor a = 1:length(grav_range)
     end
 end
 toc
+
+
+%% Generate 
+
+stiff = 100000;
+grav = 4;
+
+file_name_pwm = 'FullHopper_passiveExo_PWM.slx';
+file_name_old = 'FullHopper_passiveExo_Old.slx';
+
+% Updated Model with PWM trigger MATLAB function
+load_system(file_name_pwm);                                %Loading model                
+% CHANGE MODEL PARAMETERS
+set_param('FullHopper_passiveExo_PWM/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
+set_param('FullHopper_passiveExo_PWM/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
+% FILE NAME
+name = sprintf('exoData_PWM_grav_%s_stiff_%s.mat', num2str(grav),num2str(stiff));
+fid_pwm = name;
+set_param('FullHopper_passiveExo_PWM/To File','FileName', name);  %Setting File Name                
+
+simout = sim(file_name_pwm);     %Simulates model
+close_system(file_name_pwm,0);
+
+
+% Original Model with square wave pulse generator
+load_system(file_name_old);                                %Loading model                
+% CHANGE MODEL PARAMETERS
+set_param('FullHopper_passiveExo_Old/stiffness','Value',num2str(stiff));    %Setting exo stiffness in model
+set_param('FullHopper_passiveExo_Old/LoadDynamics/gravity','Value',num2str(grav));    %Setting gravity constant in model
+% FILE NAME
+name = sprintf('exoData_Old_grav_%s_stiff_%s.mat', num2str(grav),num2str(stiff));
+fid_old = name;
+set_param('FullHopper_passiveExo_Old/To File','FileName', name);  %Setting File Name                
+
+simout = sim(file_name_old);     %Simulates model
+close_system('FullHopper_passiveExo_Old.slx',0);

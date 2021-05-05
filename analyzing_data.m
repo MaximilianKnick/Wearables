@@ -611,3 +611,60 @@ xlabel('Gravity (m/s^2)');
 ylabel('Microgravity Atrophy Level');
 zlabel('Ideal Exo Stiffness (N/m)');
 title('Ideal Exo Stiffness for Atrophy vs. Gravity [Minimum Work]')
+
+%% 10. 
+
+% PWM and F/F_exo comparison
+
+stiff = 100000;
+grav = 4;
+
+fid_pwm = sprintf('exoData_PWM_grav_%s_stiff_%s.mat', num2str(grav),num2str(stiff));
+
+d = load(fid_pwm);          % Loads data from PWM file
+t = d.data.time;        
+data = d.data.data;
+u = data(:,1);
+f_exo = data(:,32);
+f_m = data(:,15);
+
+figure(1) 
+hold on
+plot(t, f_exo, 'color', [0.8500 0.3250 0.0980])
+plot(t, f_m, 'color',[0 0.4470 0.7410])
+legend('F_e_x_o', 'F_m', 'location', 'northWest')
+legend('boxoff')
+xlabel('Time')
+ylabel('Force (n)')
+xlim([0 10])
+ylim([0 4000])
+title('F_e_x_o and F_m vs. time for model with PWM Trigger')
+hold off
+
+clear
+clc
+
+stiff = 100000;
+grav = 4;
+
+fid_old = sprintf('exoData_Old_grav_%s_stiff_%s.mat', num2str(grav),num2str(stiff));
+
+d = load(fid_old);          % Loads data from Old file
+t = d.data.time;        
+data = d.data.data;
+u = data(:,1);
+f_exo = data(:,32);
+f_m = data(:,15);
+
+figure(2) 
+hold on
+plot(t, f_exo, 'color', [0.8500 0.3250 0.0980])
+plot(t, f_m, 'color',[0 0.4470 0.7410])
+legend('F_e_x_o', 'F_m', 'location', 'northWest')
+legend('boxoff')
+xlabel('Time')
+ylabel('Force (n)')
+xlim([0 10])
+ylim([0 3000])
+title('F_e_x_o and F_m vs. time for model with Pulse Generator')
+hold off
